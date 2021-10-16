@@ -14854,7 +14854,7 @@ Name: ROI, dtype: int64</pre>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter nbconvert prosper_slide_deck.ipynb --to slides --post serve --no-input --no-prompt
@@ -14878,32 +14878,11 @@ Name: ROI, dtype: int64</pre>
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>[NbConvertApp] Converting notebook prosper_slide_deck.ipynb to slides
-[NbConvertApp] Writing 1849626 bytes to prosper_slide_deck.slides.html
+[NbConvertApp] Writing 1849717 bytes to prosper_slide_deck.slides.html
 [NbConvertApp] Redirecting reveal.js requests to https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0
-Traceback (most recent call last):
-  File &#34;/usr/local/bin/jupyter-nbconvert&#34;, line 10, in &lt;module&gt;
-    sys.exit(main())
-  File &#34;/usr/local/lib/python3.7/dist-packages/jupyter_core/application.py&#34;, line 254, in launch_instance
-    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
-  File &#34;/usr/local/lib/python3.7/dist-packages/traitlets/config/application.py&#34;, line 845, in launch_instance
-    app.start()
-  File &#34;/usr/local/lib/python3.7/dist-packages/nbconvert/nbconvertapp.py&#34;, line 346, in start
-    self.convert_notebooks()
-  File &#34;/usr/local/lib/python3.7/dist-packages/nbconvert/nbconvertapp.py&#34;, line 518, in convert_notebooks
-    self.convert_single_notebook(notebook_filename)
-  File &#34;/usr/local/lib/python3.7/dist-packages/nbconvert/nbconvertapp.py&#34;, line 485, in convert_single_notebook
-    self.postprocess_single_notebook(write_results)
-  File &#34;/usr/local/lib/python3.7/dist-packages/nbconvert/nbconvertapp.py&#34;, line 457, in postprocess_single_notebook
-    self.postprocessor(write_results)
-  File &#34;/usr/local/lib/python3.7/dist-packages/nbconvert/postprocessors/base.py&#34;, line 28, in __call__
-    self.postprocess(input)
-  File &#34;/usr/local/lib/python3.7/dist-packages/nbconvert/postprocessors/serve.py&#34;, line 90, in postprocess
-    http_server.listen(self.port, address=self.ip)
-  File &#34;/usr/local/lib/python3.7/dist-packages/tornado/tcpserver.py&#34;, line 151, in listen
-    sockets = bind_sockets(port, address=address)
-  File &#34;/usr/local/lib/python3.7/dist-packages/tornado/netutil.py&#34;, line 161, in bind_sockets
-    sock.bind(sockaddr)
-OSError: [Errno 98] Address already in use
+Serving your slides at http://127.0.0.1:8000/prosper_slide_deck.slides.html
+Use Control-C to stop this server
+WARNING:tornado.access:404 GET /favicon.ico (127.0.0.1) 0.60ms
 </pre>
 </div>
 </div>
