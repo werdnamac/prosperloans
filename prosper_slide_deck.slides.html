@@ -1,12 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 
-<title>prosper_slide_deck</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 
+<title>prosper_slide_deck slides</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
+<!-- General and theme style sheets -->
+<link rel="stylesheet" href="https://unpkg.com/reveal.js@4.0.2/dist/reveal.css">
+<link rel="stylesheet" href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme">
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+}
+</script>
+
+<!-- Loading the mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML-full,Safe"> </script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                },
+                "HTML-CSS": {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                }
+            });
+        
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+    </script>
+    <!-- End of mathjax configuration -->
 
 <style type="text/css">
     pre { line-height: 125%; }
@@ -13911,16 +13967,15 @@ a.anchor-link {
 .highlight  {
     margin: 0.4em;
 }
-
-/* Input area styling */
-.jp-InputArea {
-    overflow: hidden;
+.jp-Notebook {
+    padding: 0;
 }
-
-.jp-InputArea-editor {
-    overflow: hidden;
+:root {
+    --jp-ui-font-size1: 20px;       /* instead of 14px */
+    --jp-content-font-size1: 20px;  /* instead of 14px */
+    --jp-code-font-size: 19px;      /* instead of 13px */
+    --jp-cell-prompt-width: 110px;  /* instead of 64px */
 }
-
 @media print {
   body {
     margin: 0;
@@ -13928,54 +13983,125 @@ a.anchor-link {
 }
 </style>
 
-<!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML-full,Safe"> </script>
-    <!-- MathJax configuration -->
-    <script type="text/x-mathjax-config">
-    init_mathjax = function() {
-        if (window.MathJax) {
-        // MathJax loaded
-            MathJax.Hub.Config({
-                TeX: {
-                    equationNumbers: {
-                    autoNumber: "AMS",
-                    useLabelIds: true
-                    }
-                },
-                tex2jax: {
-                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-                    processEscapes: true,
-                    processEnvironments: true
-                },
-                displayAlign: 'center',
-                CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
-                    }
-                },
-                "HTML-CSS": {
-                    linebreaks: { 
-                    automatic: true 
-                    }
-                }
-            });
-        
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-        }
-    }
-    init_mathjax();
-    </script>
-    <!-- End of mathjax configuration --></head>
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+.reveal {
+  font-size: 160%;
+}
+.reveal pre {
+  width: inherit;
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace, sans-serif;
+  font-size: 80%;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+}
+.reveal pre code {
+  padding: 0px;
+}
+.reveal section img {
+  border: 0px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+}
+.reveal i {
+  font-style: normal;
+  font-family: FontAwesome;
+  font-size: 2em;
+}
+.reveal .slides {
+  text-align: left;
+}
+.reveal.fade {
+  opacity: 1;
+}
+.reveal .progress {
+  position: static;
+}
+
+div.jp-InputArea-editor {
+  padding: 0.06em;
+}
+
+div.code_cell {
+  background-color: transparent;
+}
+
+div.output_area pre {
+  font-family: monospace, sans-serif;
+  font-size: 80%;
+}
+
+div.jp-OutputPrompt {
+  /* 5px right shift to account for margin in parent container */
+  margin: 5px 5px 0 0;
+}
+
+/* Reveal navigation controls */
+
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-left.enabled {
+  border-right-color: #727272;
+}
+.reveal .controls .navigate-left.enabled:hover,
+.reveal .controls .navigate-left.enabled.enabled:hover {
+  border-right-color: #dfdfdf;
+}
+.reveal .controls .navigate-right,
+.reveal .controls .navigate-right.enabled {
+  border-left-color: #727272;
+}
+.reveal .controls .navigate-right.enabled:hover,
+.reveal .controls .navigate-right.enabled.enabled:hover {
+  border-left-color: #dfdfdf;
+}
+.reveal .controls .navigate-up,
+.reveal .controls .navigate-up.enabled {
+  border-bottom-color: #727272;
+}
+.reveal .controls .navigate-up.enabled:hover,
+.reveal .controls .navigate-up.enabled.enabled:hover {
+  border-bottom-color: #dfdfdf;
+}
+.reveal .controls .navigate-down,
+.reveal .controls .navigate-down.enabled {
+  border-top-color: #727272;
+}
+.reveal .controls .navigate-down.enabled:hover,
+.reveal .controls .navigate-down.enabled.enabled:hover {
+  border-top-color: #dfdfdf;
+}
+.reveal .progress span {
+  background: #727272;
+}
+
+/* Scrollbars */
+
+::-webkit-scrollbar
+{
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar *
+{
+  background:transparent;
+}
+::-webkit-scrollbar-thumb
+{
+  background: #727272 !important;
+}
+</style>
+
+</head>
+
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="reveal">
+<div class="slides"><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Prosper-Loans-2005-2008---Characteristics-of-Borrowers-and-Loan-Success">Prosper Loans 2005-2008 - Characteristics of Borrowers and Loan Success<a class="anchor-link" href="#Prosper-Loans-2005-2008---Characteristics-of-Borrowers-and-Loan-Success">&#182;</a></h1><h2 id="by-Andy-Watson">by Andy Watson<a class="anchor-link" href="#by-Andy-Watson">&#182;</a></h2>
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Background-of-the-Dataset">Background of the Dataset<a class="anchor-link" href="#Background-of-the-Dataset">&#182;</a></h2><p>I investigated loans from Prosper Marketplace (the country's first peer-to-peer lending marketplace), looking for variables that could serve as good predictors of a loan's future success or failure.</p>
 <p>To keep the project manageable, I restricted the search for predictor variables to borrower characteristics (ex: borrower's income, but not the loan's interest rate).</p>
 <p>To ensure that I was dealing only with loans that should've been successfully completed by 2014 (when they stopped updating our dataset), I restricted my examination to loans originating between 2005 and 2008 (the loans in that time frame were 1 or 3 year loans, so at the latest all should've been paid off by 2011, according to the original terms of the loans).</p>
@@ -13985,9 +14111,8 @@ a.anchor-link {
 <p>From all this, we can see that the data under review turned out to be a pretty special case.</p>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Measuring-the-Success-of-the-Loans">Measuring the Success of the Loans<a class="anchor-link" href="#Measuring-the-Success-of-the-Loans">&#182;</a></h2><p>How to measure a loan's success?</p>
 <p>My first idea was to reorganize the LoanStatus variable from one that recorded whether or not a loan was completed, defaulted, called off, or cancelled to one that simply declared a loan Successful (if it was completed by 2014) or Unsuccessful (if it was defaulted or called of by 2014) (from 2005 through 2008, only 5 loans were cancelled and I left them out of the evaluation). I named this new variable NewLoanStatus.</p>
 <p>I soon began to worry that the Successful/Unsuccesful (ie: completed or not completed) metric did not contain enough information. For example, both a loan that recovered of all the principal plus 90% of the interest and a loan that recovered \$0 would be classified "Unsuccessful", even though the former loan was clearly much more successful than the latter.</p>
@@ -13998,9 +14123,8 @@ a.anchor-link {
 <p>I found that CSRU had the best correlation scores. These scores were higher with NewLoanStatus than with ROI, but I still preferred ROI, as it seemed the more meaningful metric.</p>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Focus-of-the-Slideshow">Focus of the Slideshow<a class="anchor-link" href="#Focus-of-the-Slideshow">&#182;</a></h2><p>This slideshow features graphs of the count distributions of my two metric variables, graphs of ROI versus the CSRU, and a summary of the correlation test results.</p>
 <p>I conclude the slideshow with a graph and correlation scores for the highest correlation scores I could find between ROI and StatedMonthlyIncome. To get these correlation scores, I had to manipulate the data in the following manner:</p>
 <p>(1) Remove the SMIs that lay outside of the graph's primary shape. And then (2) split the data into Successful and Unsuccessful loans.</p>
@@ -14010,220 +14134,25 @@ a.anchor-link {
 <p>It was reassuring that my two metrics correlated significantly with each other: the Spearman correlation score for ROI and NewLoanStatus was .72.</p>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Dataset-Overview">Dataset Overview<a class="anchor-link" href="#Dataset-Overview">&#182;</a></h2><p>The file contains data on 113,937 loans (rows) with 81 variables (columns).</p>
 <p>Variables include loan amount, interest rate, information about borrower's financial history, and current loan status.</p>
 <p>The data was collected from 2005 through 2014.</p>
 <p>After I removed all the loans that originated after the end of 2008, I was left with 29056 loans.</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import all packages and set plots to be embedded inline</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sb</span>
-
-<span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="c1"># suppress warnings from final output</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load in the dataset into a pandas dataframe</span>
-<span class="n">loan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;prosperLoanData.csv&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># make a copy of the data frame</span>
-<span class="n">loans_to_2008</span> <span class="o">=</span> <span class="n">loan</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># change the ListingCreationDate variable to datetime format</span>
-<span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;ListingCreationDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;ListingCreationDate&#39;</span><span class="p">])</span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># choose the loans made from 2005 through 2008</span>
-<span class="n">loans_to_2008</span> <span class="o">=</span> <span class="p">(</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;ListingCreationDate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="mi">2008</span><span class="p">])</span>
-<span class="c1"># the dataframe needs a continuous index</span>
-<span class="n">loans_to_2008</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># creating successful and unsuccessful columns</span>
-
-<span class="c1"># create a dictionary so you can map the values onto the new category names</span>
-<span class="n">dict_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;Completed&#39;</span><span class="p">,</span> <span class="s1">&#39;Chargedoff&#39;</span><span class="p">,</span> <span class="s1">&#39;Defaulted&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelled&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Successful&#39;</span><span class="p">,</span> <span class="s1">&#39;Unsuccessful&#39;</span><span class="p">,</span> <span class="s1">&#39;Unsuccessful&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelled&#39;</span><span class="p">]))</span>
-<span class="c1"># create a NewLoanStatus variable by mapping the dictionary onto the LoanStatus dictionary</span>
-<span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;NewLoanStatus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LoanStatus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">dict_map</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># creating the ROI variable by calculating the loans&#39; return on investments</span>
-<span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;ROI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LP_CustomerPayments&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LoanOriginalAmount&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LP_ServiceFees&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LP_CollectionFees&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LP_NonPrincipalRecoverypayments&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;LoanOriginalAmount&#39;</span><span class="p">]</span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># as an exercise, I&#39;ll turn these ordinal variables into categories computationally.</span>
-
-<span class="c1"># convert CreditGrade and IncomeRange into ordered categorical types</span>
-<span class="n">ordinal_var_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;CreditGrade&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;AA&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;HR&#39;</span><span class="p">,</span><span class="s1">&#39;NC&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;IncomeRange&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;$0&#39;</span><span class="p">,</span> <span class="s1">&#39;$1-24,999&#39;</span><span class="p">,</span> <span class="s1">&#39;$25,000-49,999&#39;</span><span class="p">,</span> <span class="s1">&#39;$50,000-74,999&#39;</span><span class="p">,</span> <span class="s1">&#39;$75,000-99,999&#39;</span><span class="p">,</span> <span class="s1">&#39;$100,000+&#39;</span><span class="p">,</span><span class="s1">&#39;Not employed&#39;</span><span class="p">,</span> <span class="s1">&#39;Not displayed&#39;</span><span class="p">]}</span>
-
-<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ordinal_var_dict</span><span class="p">:</span>
-    <span class="n">ordered_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">ordered</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">categories</span> <span class="o">=</span> <span class="n">ordinal_var_dict</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
-    <span class="n">loans_to_2008</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ordered_var</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># creating the typical_incomes dataframe and Successful &amp; Unsuccessful subsets</span>
-<span class="c1"># (for the final graph)</span>
-
-<span class="c1"># create typical_incomes df</span>
-<span class="n">typical_incomes</span> <span class="o">=</span> <span class="p">(</span><span class="n">loans_to_2008</span><span class="p">[(</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;StatedMonthlyIncome&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">60000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;StatedMonthlyIncome&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">300</span><span class="p">)])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">typical_incomes</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># create successful and unsuccessful dataframes</span>
-<span class="n">typ_succ</span> <span class="o">=</span> <span class="n">typical_incomes</span><span class="p">[</span><span class="n">typical_incomes</span><span class="p">[</span><span class="s1">&#39;NewLoanStatus&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Successful&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">typ_unsucc</span> <span class="o">=</span> <span class="n">typical_incomes</span><span class="p">[</span><span class="n">typical_incomes</span><span class="p">[</span><span class="s1">&#39;NewLoanStatus&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Unsuccessful&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># the below are used to draw lines depicting each variable&#39;s mean value on the graph</span>
-<span class="n">avg_smi_succ</span> <span class="o">=</span> <span class="n">typ_succ</span><span class="o">.</span><span class="n">StatedMonthlyIncome</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">avg_roi_succ</span> <span class="o">=</span> <span class="n">typ_succ</span><span class="o">.</span><span class="n">ROI</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">avg_smi_unsu</span> <span class="o">=</span> <span class="n">typ_unsucc</span><span class="o">.</span><span class="n">StatedMonthlyIncome</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">avg_roi_unsu</span> <span class="o">=</span> <span class="n">typ_unsucc</span><span class="o">.</span><span class="n">ROI</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Distribution-Counts-for-NewLoanStatus">Distribution Counts for NewLoanStatus<a class="anchor-link" href="#Distribution-Counts-for-NewLoanStatus">&#182;</a></h2>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># countplot of successfully completed versus uncompleted loans</span>
-<span class="c1"># remove the Cancelled loans (I am not sure if they count as Successful or Unsuccessful, and there are only 5 of them anyway)</span>
-<span class="n">no_cancelled</span> <span class="o">=</span> <span class="n">loans_to_2008</span><span class="p">[</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;NewLoanStatus&#39;</span><span class="p">]</span><span class="o">!=</span><span class="s1">&#39;Cancelled&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-<span class="n">sb</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">no_cancelled</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;NewLoanStatus&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Successfully and Unsuccessfully ended loans in the Prosper Marketplace.&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Successfully &amp; Unsuccessfully Completed Loans&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Loans had 1- or 3-year terms and originated 2005 through 2008. Data was collected through 2014.&#39;</span><span class="p">);</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
@@ -14239,65 +14168,23 @@ a.anchor-link {
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>If we declare all loans that originated between 2005 and 2008 and that were completed by 2014 "Successful", and the rest of those loans (either Defaulted or Chargedoff, and ignoring the 5 Cancelled loans) "Unsuccessful, about 63% of the loans were successful.</p>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Distribution-Counts-for-ROI">Distribution Counts for ROI<a class="anchor-link" href="#Distribution-Counts-for-ROI">&#182;</a></h2>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># histogram of ROI variable</span>
-<span class="n">binsize</span> <span class="o">=</span> <span class="mf">.02</span>
-<span class="n">ticksize</span> <span class="o">=</span> <span class="mf">.1</span>
-<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">binsize</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">binsize</span><span class="p">,</span> <span class="n">binsize</span><span class="p">)</span>
-<span class="n">ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ticksize</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">loans_to_2008</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;ROI&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Return on Investment&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Investment Returns from 2005 through 2008 on 1- and 3-year loans, as of 2014&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
@@ -14313,9 +14200,8 @@ a.anchor-link {
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>The bulk of the loans seem to have either about a 10%, 20%,or 30% return (the 0-10% range contains over 4000 loans, the other two ranges each contain over 5000 loans). Fewer, but a still substantial amount of loans have a 40% return (around 3000 loans).</p>
 <p>About 1000 loans had a 50% return, and then the numbers drop off smoothly for 60% and 70% returns. ROIs higher than that are very rare in the data set.</p>
 <p>On the negative side, the -100%, -90%, and -80% ROI columns each contain about 1000 loans, and the counts drop off gradually from there to 0, where there appear to be about 500 loans where the lender broke even.</p>
@@ -14323,52 +14209,17 @@ a.anchor-link {
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="ROI-counts-broken-into-10%25-intervals">ROI counts broken into 10% intervals<a class="anchor-link" href="#ROI-counts-broken-into-10%25-intervals">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># create bins for the ROI values</span>
-<span class="n">binsize</span><span class="o">=</span><span class="mf">.1</span>
-<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">binsize</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">binsize</span><span class="p">,</span> <span class="n">binsize</span><span class="p">)</span>
-
-<span class="n">roi_bins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">loans_to_2008</span><span class="p">[</span><span class="s1">&#39;ROI&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="p">)</span>
-
-<span class="c1"># group loans by the ROI bins</span>
-<span class="n">loans_to_2008</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">roi_bins</span><span class="p">)[</span><span class="s1">&#39;ROI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
-
 
 
 
@@ -14404,51 +14255,17 @@ Name: ROI, dtype: int64</pre>
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="CreditScoreRangeUpper-versus-ROI-(Scatterplot)">CreditScoreRangeUpper versus ROI (Scatterplot)<a class="anchor-link" href="#CreditScoreRangeUpper-versus-ROI-(Scatterplot)">&#182;</a></h2>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># a scatterplot comparing the CSRU and ROI variables</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">loans_to_2008</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;CreditScoreRangeUpper&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;ROI&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Credit Range (Upper)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Return on investment&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Credit Range VS ROI&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
@@ -14464,9 +14281,8 @@ Name: ROI, dtype: int64</pre>
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>What does the above picture tell us?</p>
 <p>There is a wall of negative ROIs from about CSRU 450 to CSRU 800. And a roof of positive ROIs that climbs jerkily up to a peak of about CSRU 600 / ROI .75, and then slopes gradually down until about CSRU 900 / ROI .1 -- overhanging the negative-ROI wall.</p>
 <p>From this graph, it looks like during this time period, CSRU 550-650 was was the credit range with the highest payoffs. Probably related to the relatively high interest rates charged to people with those (not spectacularly good) credit ratings.</p>
@@ -14474,51 +14290,19 @@ Name: ROI, dtype: int64</pre>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="CreditScoreRangeUpper-versus-ROI-(Barplot)">CreditScoreRangeUpper versus ROI (Barplot)<a class="anchor-link" href="#CreditScoreRangeUpper-versus-ROI-(Barplot)">&#182;</a></h2><blockquote><p>The above scatterplot with alpha-shading gives a sense of the distribution of ROIs at the various credit ranges, but it doesn't clearly demonstrate the average ROIs for loans from each credit range. We'll draw a barplot for that.</p>
 </blockquote>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># bar plot</span>
-<span class="n">loans_to_2008</span><span class="p">[[</span><span class="s1">&#39;CreditScoreRangeUpper&#39;</span><span class="p">,</span> <span class="s1">&#39;ROI&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;CreditScoreRangeUpper&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ROI</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">14</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">.9</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Credit Score Range (Upper)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Return on investment&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Credit Range VS ROI&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-
 
 
 
@@ -14529,10 +14313,6 @@ Name: ROI, dtype: int64</pre>
 </div>
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
@@ -14548,9 +14328,8 @@ Name: ROI, dtype: int64</pre>
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>The middle Credit Ranges show mixed results. The lower Credit Score Ranges resulted in uniformly negative average ROIs. Only up around upper credit ranges of about CSRU 800-900 does Prosper start to turn a solid profit.</p>
 <p>There is a gradual downward trend in the negative range from about CSRU 599 / ROI -.1 through CSRU 439 / ROI -.58</p>
 <p>There is an upward trend from about CSRU 800 / ROI .05 through about CSRU 900 / ROI .4 (with a dip down at CSRU 879 / ROI .2)</p>
@@ -14558,14 +14337,12 @@ Name: ROI, dtype: int64</pre>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Correlation-Coefficient-scores-for-the-full-loans_to_2008-data-set.">Correlation Coefficient scores for the full loans_to_2008 data set.<a class="anchor-link" href="#Correlation-Coefficient-scores-for-the-full-loans_to_2008-data-set.">&#182;</a></h2>
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <table>
 <thead><tr>
 <th style="text-align:left">Variables</th>
@@ -14644,9 +14421,8 @@ Name: ROI, dtype: int64</pre>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>The best predictor-variable/success-metric scores were with NewLoanStatus (the simple: Successful/Not Successful metric):</p>
 <p>NLS/CSRU .27, NLS/CG .20, and NLS/AD -.15</p>
 <p>With ROI, the best predictor/metric scores were ROI/CG .14 and ROI/CSRU .12</p>
@@ -14658,14 +14434,12 @@ Name: ROI, dtype: int64</pre>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Correlation-Scores-after-splitting-the-typical_loans-dataframe-into-Successful-&amp;-Unsuccessful-Loans:">Correlation Scores after splitting the typical_loans dataframe into Successful &amp; Unsuccessful Loans:<a class="anchor-link" href="#Correlation-Scores-after-splitting-the-typical_loans-dataframe-into-Successful-&amp;-Unsuccessful-Loans:">&#182;</a></h3>
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="Successful-Loans-(within-income-range-%5C$300-%5C%5C$60K)">Successful Loans (within income range \$300-\\$60K)<a class="anchor-link" href="#Successful-Loans-(within-income-range-%5C$300-%5C%5C$60K)">&#182;</a></h4><table>
 <thead><tr>
 <th style="text-align:left">Variables</th>
@@ -14728,90 +14502,25 @@ Name: ROI, dtype: int64</pre>
 </table>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="Discussion-of-the-Successful-Loan-correlation-scores:">Discussion of the Successful Loan correlation scores:<a class="anchor-link" href="#Discussion-of-the-Successful-Loan-correlation-scores:">&#182;</a></h4><blockquote><p>Note that with all these contortions (throwing out the income ranges that lay outside the main shape of the graph and then breaking the data into Successful and Unsuccessful dataframes, ROI/SMI finally breaks |.1|, but it is now a negative instead of a positive score: -.14 Pearson and -.12 Spearman.</p>
 <p>And ROI/CSRU goes from a weak correlation to a strong one, but the score has also flipped from positive to negative: -.56 Pearson and -.57 Spearman.</p>
 <p>What causes the signs to flip? I discuss this beneath the bottom graph.</p>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="SMI-versus-ROI,-with-color-coded-CSRU---broken-into-Successful-&amp;-Unsuccesful-Loan-subsets">SMI versus ROI, with color-coded CSRU - broken into Successful &amp; Unsuccesful Loan subsets<a class="anchor-link" href="#SMI-versus-ROI,-with-color-coded-CSRU---broken-into-Successful-&amp;-Unsuccesful-Loan-subsets">&#182;</a></h3>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="c1">#  TWO PLOTS IN ONE FIGURE</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">14</span><span class="p">])</span>
-<span class="n">base_color</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROI versus CSRU - Red Lines represent mean values of each variable&#39;</span><span class="p">)</span>
-
-<span class="c1"># LEFT plot: SMI/CSRU/ROI - Successful loans</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">typ_succ</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;StatedMonthlyIncome&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;ROI&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;CreditScoreRangeUpper&#39;</span><span class="p">,</span>
-            <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;mako_r&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mf">.10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;$0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;$1&#39;</span><span class="p">,</span> <span class="s1">&#39;$10&#39;</span><span class="p">,</span> <span class="s1">&#39;$100&#39;</span><span class="p">,</span> <span class="s1">&#39;$1000&#39;</span><span class="p">,</span> <span class="s1">&#39;$3000&#39;</span><span class="p">,</span><span class="s1">&#39;$10,000&#39;</span><span class="p">,</span> <span class="s1">&#39;$100,000&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Stated Monthly Income&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Return on Investment&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Completed Loans&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Credit Score Range (Upper)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">avg_smi_succ</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">avg_roi_succ</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-
-<span class="c1"># RIGHT plot: Unsuccessful loans</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">typ_unsucc</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;StatedMonthlyIncome&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;ROI&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;CreditScoreRangeUpper&#39;</span><span class="p">,</span>
-            <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;mako_r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mf">.10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;$0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;$1&#39;</span><span class="p">,</span> <span class="s1">&#39;$10&#39;</span><span class="p">,</span> <span class="s1">&#39;$100&#39;</span><span class="p">,</span> <span class="s1">&#39;$1000&#39;</span><span class="p">,</span> <span class="s1">&#39;$3000&#39;</span><span class="p">,</span> <span class="s1">&#39;$10,000&#39;</span><span class="p">,</span> <span class="s1">&#39;$100,000&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Stated Monthly Income&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Return on Investment&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Uncompleted Loans&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">avg_smi_unsu</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">avg_roi_unsu</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
@@ -14827,9 +14536,8 @@ Name: ROI, dtype: int64</pre>
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>If the top left and bottom right quadrants have the most observations, there is a negative linear trend. That's what seems to be happening in the Successful graph.</p>
 <p>If the bottom left and top right quadrants have the most observations, there is a positive linear trend.</p>
 <p>The Unsuccessful graph seems to be evenly distributed between the bottom-right/upper-left and upper-right/bottom-left diagonals. That would indicate correlations close to zero.</p>
@@ -14838,59 +14546,13 @@ Name: ROI, dtype: int64</pre>
 </blockquote>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hide the code so it doesn&#39;t interfere with the size of the slide</span>
-<span class="p">{</span>
-    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;to_remove&quot;</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;slideshow&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;slide_type&quot;</span><span class="p">:</span> <span class="s2">&quot;fragment&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># find the values for the lines drawn through the mean of each variable&#39;s values</span>
-<span class="n">avg_smi</span> <span class="o">=</span> <span class="n">typical_incomes</span><span class="o">.</span><span class="n">StatedMonthlyIncome</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">avg_roi</span> <span class="o">=</span> <span class="n">typical_incomes</span><span class="o">.</span><span class="n">ROI</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
-<span class="c1"># a single plot</span>
-<span class="n">base_color</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">typical_incomes</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;StatedMonthlyIncome&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;ROI&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;CreditScoreRangeUpper&#39;</span><span class="p">,</span>
-            <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;mako_r&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mf">.10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;$0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;$1&#39;</span><span class="p">,</span> <span class="s1">&#39;$10&#39;</span><span class="p">,</span> <span class="s1">&#39;$100&#39;</span><span class="p">,</span> <span class="s1">&#39;$1000&#39;</span><span class="p">,</span> <span class="s1">&#39;$3000&#39;</span><span class="p">,</span><span class="s1">&#39;$6000&#39;</span><span class="p">,</span><span class="s1">&#39;$10,000&#39;</span><span class="p">,</span> <span class="s1">&#39;$100,000&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Stated Monthly Income&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Return on Investment&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Credit Score Range (Upper)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;ROI as a function of SMI, with color-coded CSRU - Red lines represent each variable&#39;s mean value&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">avg_smi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">avg_roi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
 <div class="jp-Cell-outputWrapper">
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
 
 
 
@@ -14906,77 +14568,25 @@ Name: ROI, dtype: int64</pre>
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>The bulk of the x-points are on the left side of the average value. This makes sense: the values on the left side each have smaller individual values, so it will take more of them to make up their portion of half the overall value.</p>
 <p>When the whole dataset is plotted, the large number of points in the bottom left quadrant balances out the large number in the top left quadrant. The result is a very slight positive correlation (the top half is wider, but the bottom half is quite wide on the left side and about 25% taller than the left side).</p>
 <p>But when (in the Successful case) we keep only the mushroom top, the red y-line moves up only from ROI almost-0 to ROI-.25 (because the bottom of the mushroom-top is much wider than the top of the mushroom-top), while the red x-line remains the same. And so we get a negative correlation (more points on the NW-SE diagonal than on the SW-NE diagonal).</p>
 </blockquote>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">&#182;</a></h3><blockquote><p>We didn't discover any great predictors for our loan-success metrics. Perhaps the peculiar circumstances surrounding this particular dataset (loans_to_2008) is to blame. Perhaps not.</p>
 <p>The high correlation scores between the two loan-success metrics was more encouraging, as was the fact that the relationships that one would've thought should be positive were positive, and the scores that one would've thought should be negative (ie: ROI/DebtToIncomeRatio &amp; ROI/AmountDelinquent) were negative. These findings make me feel that the analysis was at least on the right track.</p>
 </blockquote>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter nbconvert prosper_slide_deck.ipynb --to slides --post serve --no-input --no-prompt
-</pre></div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
 
-     </div>
+</div></section></section>
 </div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[NbConvertApp] Converting notebook prosper_slide_deck.ipynb to slides
-[NbConvertApp] Writing 1794968 bytes to prosper_slide_deck.slides.html
-[NbConvertApp] Redirecting reveal.js requests to https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0
-Serving your slides at http://127.0.0.1:8000/prosper_slide_deck.slides.html
-Use Control-C to stop this server
-WARNING:tornado.access:404 GET /favicon.ico (127.0.0.1) 0.70ms
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
 </div>
 </body>
 
@@ -14985,5 +14595,55 @@ WARNING:tornado.access:404 GET /favicon.ico (127.0.0.1) 0.70ms
 
 
 
+
+<script>
+require(
+    {
+      // it makes sense to wait a little bit when you are loading
+      // reveal from a cdn in a slow connection environment
+      waitSeconds: 15
+    },
+    [
+      "https://unpkg.com/reveal.js@4.0.2/dist/reveal.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"
+    ],
+
+    function(Reveal, RevealNotes){
+        // Full list of configuration options available here: https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            transition: "slide",
+            plugins: [RevealNotes]
+        });
+
+        var update = function(event){
+          if(MathJax.Hub.getAllJax(Reveal.getCurrentSlide())){
+            MathJax.Hub.Rerender(Reveal.getCurrentSlide());
+          }
+        };
+
+        Reveal.addEventListener('slidechanged', update);
+
+        function setScrollingSlide() {
+            var scroll = false
+            if (scroll === true) {
+              var h = $('.reveal').height() * 0.95;
+              $('section.present').find('section')
+                .filter(function() {
+                  return $(this).height() > h;
+                })
+                .css('height', 'calc(95vh)')
+                .css('overflow-y', 'scroll')
+                .css('margin-top', '20px');
+            }
+        }
+
+        // check and set the scrolling slide every time the slide change
+        Reveal.addEventListener('slidechanged', setScrollingSlide);
+    }
+);
+</script>
 
 </html>
