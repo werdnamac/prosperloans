@@ -1,6 +1,13 @@
 # Prosper Loan Data exploration
 ## by AM Watson
 
+### Overview of Files
+
+loan_exploration_final is the full investigation.
+
+prosper_slide_deck covers the main findings.
+
+prosper_slide_deck_medium_long covers the main findings, as well as my attempt to find the best possible correlation coefficient scores between ROI and StatedMonthlyIncome.
 
 ## Dataset
 
